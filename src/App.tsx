@@ -1,3 +1,8 @@
+import { Auth } from "./components/auth";
+
+
 export function App() {
-  return <></>;
+  return <div className="App">
+    <Auth/>
+  </div>;
 }

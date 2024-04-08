@@ -5,6 +5,7 @@
 1. **Custom templates:** One to start with.
 2. **Custom and pre-made cateogories:** Decide what category-types to create.
 3. **Enter info to each cateogry:**: Input limitations for different categories?  
+4. **Select what from each category that gets put in the resume:** Checkboxes -> Preview, if satsified with the result -> download.
 4. **Preview:** The ability to preview your resume as you fill out your resume.
 5. **User authentication:** Connect auto-service to the app, and save resume details to a backend.
 6. **Backend/DB:** Handle user auth, manage db.
@@ -60,6 +61,3 @@ This is the edit mode, and not the finished product.
 7. ***How should the preview feature be implemented?***
     - **Desktop:** Edit mode to the left side of the screean, preview on the right. Not sure about the breakpoint yet.
     - **Mobile:** Click-to-preview functionality, and click to close. The preview should fit the screen.
-
-
-
