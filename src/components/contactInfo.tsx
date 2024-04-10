@@ -28,8 +28,8 @@ export const ContactInfo = ({ contactInfo, onUpdateContactInfo }: Props) => {
   
     return (
       <div className='contactinfo-container'>
-        <h2>Contact Information</h2>
         <form>
+        <h1>Contact Information</h1>
           <div className='input-container'>
             <label>First Name:</label>
             <input
