@@ -1,14 +1,38 @@
 
-interface Links{
+export interface Links{
     github?: string;
     linkedIn?: string;
-    porfolio?: string;
+    portfolio?: string;
 
 }
 
-export interface ContactInfo{
+export interface ContactProps{
+    firstName: string;
+    lastName: string;
     email: string;
     phoneNumber?: string;
     location?: string;
-    links?: Links;
+}
+
+export interface WorkExperience{
+title: string;
+company: string;
+location: string;
+startMonth: string;
+startYear: string;
+endMonth?: string;
+endYear?: string;
+workDescription?: string;
+bulletDescription?: string[];
+}
+
+export interface Education{
+name: string;
+school: string;
+startMonth: string;
+startYear: string;
+endMonth?: string;
+endYear?: string;
+description?: string;
+bulletDescription?: string[];
 }

@@ -1,129 +1,82 @@
-import { useState, useEffect } from "react";
-import { auth, db } from "../config/firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { ContactInfo } from "../interface";
+import React, { useState } from 'react';
+// import './contactInfo.css';
+import { ContactProps } from '../interface';
 
-export const ContactInfoComponent = () => {
-  const [updatedContactInfo, setUpdatedContactInfo] = useState<ContactInfo>({
-    email: "",
-    phoneNumber: "",
-    location: "",
-    links: {
-      github: "",
-      linkedIn: "",
-      porfolio: ""
-    }
-  });
+interface Props {
+    contactInfo: ContactProps | undefined;
+    onUpdateContactInfo: (contactInfo: ContactProps) => void;
+}
 
-  useEffect(() => {
-    fetchContactInfo();
-  }, []);
-
-  const fetchContactInfo = async () => {
-    try {
-      const user = auth.currentUser;
-      if (user) {
-        const userDoc = doc(db, "users", user.uid);
-        const docSnap = await getDoc(userDoc);
-        if (docSnap.exists()) {
-          const userContactInfo = docSnap.data().contactInfo;  
-          setUpdatedContactInfo(userContactInfo);
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching contact info:", error);
-    }
+export const ContactInfo = ({ contactInfo, onUpdateContactInfo }: Props) => {
+    const [firstName, setFirstName] = useState(contactInfo ? contactInfo.firstName : '');
+    const [lastName, setLastName] = useState(contactInfo ? contactInfo.lastName : '');
+    const [email, setEmail] = useState(contactInfo ? contactInfo.email : '');
+    const [phoneNumber, setPhoneNumber] = useState(contactInfo ? contactInfo.phoneNumber : '');
+    const [location, setLocation] = useState(contactInfo ? contactInfo.location : '');
+  
+    const handleBlur = () => {
+      const newContactInfo = {
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        location
+      };
+  
+      onUpdateContactInfo(newContactInfo);
+    };
+  
+    return (
+      <div className='contactinfo-container'>
+        <h2>Contact Information</h2>
+        <form>
+          <div className='input-container'>
+            <label>First Name:</label>
+            <input
+              type='text'
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              onBlur={handleBlur}
+            />
+          </div>
+          <div className='input-container'>
+            <label>Last Name:</label>
+            <input
+              type='text'
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              onBlur={handleBlur}
+            />
+          </div>
+          <div className='input-container'>
+            <label>Email:</label>
+            <input
+              type='email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onBlur={handleBlur}
+            />
+          </div>
+          <div className='input-container'>
+            <label>Phone Number:</label>
+            <input
+              type='text'
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              onBlur={handleBlur}
+            />
+          </div>
+          <div className='input-container'>
+            <label>Location:</label>
+            <input
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              onBlur={handleBlur}
+            />
+          </div>   
+        </form>
+      </div>
+    );
   };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUpdatedContactInfo((prevContactInfo) => ({
-      ...prevContactInfo,
-      [name]: value
-    }));
-  };
-
-  const handleLinksChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUpdatedContactInfo((prevContactInfo) => ({
-      ...prevContactInfo,
-      links: {
-        ...prevContactInfo.links,
-        [name]: value
-      }
-    }));
-  };
-
-  const saveContactInfo = async () => {
-    try {
-      const user = auth.currentUser;
-      if (user) {
-        const userDoc = doc(db, "users", user.uid);
-        await setDoc(userDoc, { contactInfo: updatedContactInfo }, { merge: true });
-      }
-    } catch (error) {
-      console.error("Error saving contact info:", error);
-    }
-  };
-
-  return (
-    <div>
-      <h2>Contact Information</h2>
-      <div>
-        <label>Email:</label>
-        <input
-          type="text"
-          name="email"
-          value={updatedContactInfo.email}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label>Phone Number:</label>
-        <input
-          type="text"
-          name="phoneNumber"
-          value={updatedContactInfo.phoneNumber || ""}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label>Location:</label>
-        <input
-          type="text"
-          name="location"
-          value={updatedContactInfo.location || ""}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label>Github:</label>
-        <input
-          type="text"
-          name="github"
-          value={updatedContactInfo.links?.github || ""}
-          onChange={handleLinksChange}
-        />
-      </div>
-      <div>
-        <label>LinkedIn:</label>
-        <input
-          type="text"
-          name="linkedIn"
-          value={updatedContactInfo.links?.linkedIn || ""}
-          onChange={handleLinksChange}
-        />
-      </div>
-      <div>
-        <label>Portfolio:</label>
-        <input
-          type="text"
-          name="porfolio"
-          value={updatedContactInfo.links?.porfolio || ""}
-          onChange={handleLinksChange}
-        />
-      </div>
-      <button onClick={saveContactInfo}>Save</button>
-    </div>
-  );
-};
+  

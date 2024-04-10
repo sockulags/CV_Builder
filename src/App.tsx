@@ -1,43 +1,32 @@
+import "./App.css";
 import { Auth } from "./components/auth";
 import { auth, db } from "./config/firebase";
 import { useEffect, useState } from "react";
 import { getDocs, collection, addDoc, doc, getDoc } from "firebase/firestore";
-import { ContactInfoComponent } from "./components/contactInfo";
+import { CvComponent } from "./components/CvComponent";
+import { CvDataProvider } from "./context/CVContext";
 
 export function App() {
-  const [categories, setCategories] = useState([{}])
-  const [category, setCategory] = useState("")
-  const categoriesRef = collection(db, "categories")
+  // Contact Info
 
-  useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const data = await getDocs(categoriesRef);
-        const filteredData = data.docs.map((doc) => ({...doc.data(), id: doc.id}))
-        console.log(filteredData)
-        setCategories(filteredData);
-      } catch (err) {
-        console.error(err);
-      }
-    }
+  // Links
 
-    getCategories();
-  }, [])
+  // Profile - type: string 
 
-  const onSubmitCategory = async () => {
-    await addDoc(categoriesRef, { category: category })
-  }
+  // Summary - type: string
 
-  const getUserContactInfo = async () => {
-    try {
-      // Get the authenticated user
+  // Work Experience
+
+  // Education
+
+
+  const getUserInfo = async () => {
+    try {   
       const user = auth.currentUser;
       if (user) {
-        // Get the user's document from Firestore
         const userDoc = doc(db, "users", user.uid);
         const docSnap = await getDoc(userDoc);
         if (docSnap.exists()) {
-          // Access the contactInfo field from the user's document
           const contactInfo = docSnap.data().contactInfo;
           console.log("User's contactInfo:", contactInfo);
         } else {
@@ -54,19 +43,13 @@ export function App() {
   return (
     <div className="App">
       <Auth />
-      <ContactInfoComponent/>
-      <div>
-        <input onChange={(e) => setCategory(e.target.value)} placeholder="category" type="text" />
-        <button onClick={onSubmitCategory}>Submit</button>
-      </div>
-      <div>
-        {
-          categories.map((category) => (
-            <h3>{category.profile}</h3>
-          ))
-        }
-      </div>
-      <button onClick={getUserContactInfo}>Get User Contact Info</button>
+      <CvDataProvider>
+        <CvComponent/>
+      </CvDataProvider>
+ 
+
+
+      <button onClick={getUserInfo}>Get User Contact Info</button>
     </div>
   );
 }
