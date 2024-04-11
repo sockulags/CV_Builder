@@ -8,6 +8,7 @@ import { LinksComponent } from './LinksComponent';
 import { ContactProps, LinkProps, IWorkExperience} from '../interface';
 import { CvContext } from '../context/CVContext';
 import { WorkExperienceComponent } from './WorkExperience';
+import { Profile } from './Profile';
 
 
 export const CvComponent = () => {
@@ -16,7 +17,7 @@ const userData = useContext(CvContext);
   // Define state variables
   const [contactInfo, setContactInfo] = useState<ContactProps | undefined>(userData.contactInfo);
   const [links, setLinks] = useState<LinkProps | undefined>(userData.links);
-//   const [profile, setProfile] = useState('');
+  const [profile, setProfile] = useState('');
 //   const [summary, setSummary] = useState('');
   const [workExperience, setWorkExperience] = useState<IWorkExperience[] | undefined>([]);
 //   const [education, setEducation] = useState([]);
@@ -34,9 +35,10 @@ const userData = useContext(CvContext);
   };
 
 //   // Function to update profile
-//   const updateProfile = (newProfile) => {
-//     setProfile(newProfile);
-//   };
+  const updateProfile = (newProfile:string) => {
+    setProfile(newProfile);
+    console.log(profile);
+  };
 
 //   // Function to update summary
 //   const updateSummary = (newSummary) => {
@@ -57,11 +59,12 @@ const userData = useContext(CvContext);
   return (
     <div className="cvcomponent-container">
       <ContactInfo contactInfo={contactInfo} onUpdateContactInfo={updateContactInfo} />
+      <Profile profileText={profile} onUpdateProfile={updateProfile} />
        <LinksComponent links={links} onUpdateLinks={updateLinks} />
        <WorkExperienceComponent experience={workExperience} onUpdateWorkExperience={updateWorkExperience} isEducation={false} />
        <WorkExperienceComponent experience={workExperience} onUpdateWorkExperience={updateWorkExperience} isEducation={true}/>
-   
-      {/*<Profile profile={profile} onUpdateProfile={updateProfile} />
+
+      {/*
       <Summary summary={summary} onUpdateSummary={updateSummary} />*/}
     </div>
   );
