@@ -1,5 +1,5 @@
 
-export interface Links{
+export interface LinkProps{
     github?: string;
     linkedIn?: string;
     portfolio?: string;

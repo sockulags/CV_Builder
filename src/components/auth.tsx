@@ -3,7 +3,7 @@ import { auth, googleProvider, db } from "../config/firebase";
 import { createUserWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { collection, doc, getDoc, setDoc, addDoc } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
-import { ContactInfo } from "../interface";
+
 
 export const Auth = () => {
     const [email, setEmail] = useState("");
@@ -44,7 +44,7 @@ export const Auth = () => {
                 console.log("User profile already exists for", user.email);               
             } else {
                 console.log("Creating user profile for", user.email);
-                const contactInfo:ContactInfo = {
+                const contactInfo = {
                     email: user.email,
                 }
 

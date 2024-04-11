@@ -1,11 +1,11 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
 import { auth, db } from '../config/firebase';
 import { getDoc, doc } from 'firebase/firestore';
-import { ContactProps, Education, Links, WorkExperience } from '../interface';
+import { ContactProps, Education, LinkProps, WorkExperience } from '../interface';
 
 interface CvData {
   contactInfo?: ContactProps;
-  links?: Links;
+  links?: LinkProps;
   workExperience?: WorkExperience[];
   education?: Education[];
 }
