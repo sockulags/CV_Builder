@@ -5,8 +5,9 @@ import { LinksComponent } from './LinksComponent';
 // import Summary from './Summary';
 // import WorkExperience from './WorkExperience';
 // import Education from './Education';
-import { ContactProps, LinkProps} from '../interface';
+import { ContactProps, LinkProps, IWorkExperience} from '../interface';
 import { CvContext } from '../context/CVContext';
+import { WorkExperienceComponent } from './WorkExperience';
 
 
 export const CvComponent = () => {
@@ -17,7 +18,7 @@ const userData = useContext(CvContext);
   const [links, setLinks] = useState<LinkProps | undefined>(userData.links);
 //   const [profile, setProfile] = useState('');
 //   const [summary, setSummary] = useState('');
-//   const [workExperience, setWorkExperience] = useState([]);
+  const [workExperience, setWorkExperience] = useState<IWorkExperience[] | undefined>([]);
 //   const [education, setEducation] = useState([]);
 
   // Function to update contact info
@@ -29,6 +30,7 @@ const userData = useContext(CvContext);
   // Function to update links
   const updateLinks = (newLinks:LinkProps) => {
     setLinks(newLinks);
+    console.log(newLinks);
   };
 
 //   // Function to update profile
@@ -41,10 +43,11 @@ const userData = useContext(CvContext);
 //     setSummary(newSummary);
 //   };
 
-//   // Function to update work experience
-//   const updateWorkExperience = (newWorkExperience) => {
-//     setWorkExperience(newWorkExperience);
-//   };
+  // Function to update work experience
+  const updateWorkExperience = (newWorkExperience:IWorkExperience[]) => {
+    setWorkExperience(newWorkExperience);
+    console.log(workExperience)
+  };
 
 //   // Function to update education
 //   const updateEducation = (newEducation) => {
@@ -55,9 +58,9 @@ const userData = useContext(CvContext);
     <div className="cvcomponent-container">
       <ContactInfo contactInfo={contactInfo} onUpdateContactInfo={updateContactInfo} />
        <LinksComponent links={links} onUpdateLinks={updateLinks} />
+       <WorkExperienceComponent experience={workExperience} onUpdateWorkExperience={updateWorkExperience} />
       {/*<Profile profile={profile} onUpdateProfile={updateProfile} />
       <Summary summary={summary} onUpdateSummary={updateSummary} />
-      <WorkExperience workExperience={workExperience} onUpdateWorkExperience={updateWorkExperience} />
       <Education education={education} onUpdateEducation={updateEducation} /> */}
     </div>
   );

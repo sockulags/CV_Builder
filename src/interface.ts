@@ -14,7 +14,7 @@ export interface ContactProps{
     location?: string;
 }
 
-export interface WorkExperience{
+export interface IWorkExperience{
 title: string;
 company: string;
 location: string;
