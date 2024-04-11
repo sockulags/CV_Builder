@@ -4,9 +4,10 @@ import { IWorkExperience } from '../interface';
 interface Props {
   experience: IWorkExperience[] | undefined;
   onUpdateWorkExperience: (experience: IWorkExperience[]) => void;
+  isEducation: boolean;
 }
 
-export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience }: Props) => {
+export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, isEducation }: Props) => {
   const [formData, setFormData] = useState<IWorkExperience>({
     title: '',
     company: '',
@@ -97,7 +98,7 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience }: 
   );
 
   // Function to render checkbox input field
-  const renderCheckboxInput = (label: string) => (
+  const renderCheckboxInput = () => (
     <div className="input-container" key={"useBulletDescription"}>
       <input
         className="input"
@@ -106,7 +107,7 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience }: 
         checked={useBulletDescription}
         onChange={() => setUseBulletDescription(prev => !prev)}
       />
-      <label className="label">{label}</label>
+      <label className="label">{useBulletDescription ? "Paragraph" : "Bullet points"}</label>
       <div className="underline"></div>
     </div>
   );
@@ -114,15 +115,15 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience }: 
   return (
     <div className='workexperience-container'>
       <form onSubmit={handleSubmit}>
-        <h1>Work Experience</h1>
+        <h1>{isEducation ? "Education" : "Work Experience"}</h1>
         {renderTextInput('title', 'Title')}
-        {renderTextInput('company', 'Company')}
+        {renderTextInput('company', isEducation ? "School":'Company')}
         {renderTextInput('location', 'Location')}
         {renderSelectInput('startMonth', 'Start Month', ['January', 'February', 'March', /*...*/])}
         {renderSelectInput('endMonth', 'End Month', ['January', 'February', 'March', /*...*/])}
         {renderSelectInput('startYear', 'Start Year', ['2022', '2021', '2020', /*...*/])}
         {renderSelectInput('endYear', 'End Year', ['2022', '2021', '2020', /*...*/])}
-        {renderCheckboxInput('Use Bullet Description')}
+        {renderCheckboxInput()}
         {!useBulletDescription && (
           <div className="input-container">
             <textarea
@@ -131,7 +132,7 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience }: 
               value={formData.workDescription}
               onChange={handleChange}
             />
-            <label className="label">Work Description</label>
+            <label className="label">Description</label>
             <div className="underline"></div>
           </div>
         ) }
@@ -146,14 +147,14 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience }: 
                   value={bullet}
                   onChange={(e) => handleBulletDescriptionChange(index, e.target.value)}
                 />
-                <label className="label">Bullet Description</label>
+                <label className="label">Bullet points</label>
                 <div className="underline"></div>
               </div>
             ))}
-            <button type="button" onClick={addBulletDescription}>Add Bullet Description</button>
+            <button type="button" onClick={addBulletDescription}>Add Bullet Point</button>
           </>
         )}
-        <button type="submit">Add Experience</button>
+        <button type="submit">Add {isEducation ? "Education": "Experience"}</button>
       </form>
     </div>
   );

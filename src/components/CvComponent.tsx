@@ -58,10 +58,11 @@ const userData = useContext(CvContext);
     <div className="cvcomponent-container">
       <ContactInfo contactInfo={contactInfo} onUpdateContactInfo={updateContactInfo} />
        <LinksComponent links={links} onUpdateLinks={updateLinks} />
-       <WorkExperienceComponent experience={workExperience} onUpdateWorkExperience={updateWorkExperience} />
+       <WorkExperienceComponent experience={workExperience} onUpdateWorkExperience={updateWorkExperience} isEducation={false} />
+       <WorkExperienceComponent experience={workExperience} onUpdateWorkExperience={updateWorkExperience} isEducation={true}/>
+   
       {/*<Profile profile={profile} onUpdateProfile={updateProfile} />
-      <Summary summary={summary} onUpdateSummary={updateSummary} />
-      <Education education={education} onUpdateEducation={updateEducation} /> */}
+      <Summary summary={summary} onUpdateSummary={updateSummary} />*/}
     </div>
   );
 }
