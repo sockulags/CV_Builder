@@ -36,3 +36,8 @@ endYear?: string;
 description?: string;
 bulletDescription?: string[];
 }
+
+export interface ISkills{
+    name: string;
+    skills: string[];
+}

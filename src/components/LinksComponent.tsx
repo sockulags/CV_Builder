@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { LinkProps } from '../interface';
+import React, { useState } from "react";
+import { LinkProps } from "../interface";
 
 interface Props {
   links: LinkProps | undefined;
@@ -11,16 +11,20 @@ export const LinksComponent = ({ links, onUpdateLinks }: Props) => {
   const [linkedInChecked, setLinkedInChecked] = useState(!!links?.linkedIn);
   const [portfolioChecked, setPortfolioChecked] = useState(!!links?.portfolio);
 
-  const renderInputContainer = (name: keyof LinkProps, checked: boolean, value: string | undefined) => {
+  const renderInputContainer = (
+    name: keyof LinkProps,
+    checked: boolean,
+    value: string | undefined
+  ) => {
     const handleCheckboxChange = () => {
       switch (name) {
-        case 'github':
+        case "github":
           setGithubChecked(!githubChecked);
           break;
-        case 'linkedIn':
+        case "linkedIn":
           setLinkedInChecked(!linkedInChecked);
           break;
-        case 'portfolio':
+        case "portfolio":
           setPortfolioChecked(!portfolioChecked);
           break;
         default:
@@ -35,33 +39,51 @@ export const LinksComponent = ({ links, onUpdateLinks }: Props) => {
 
     return (
       <div className="input-container">
+            <input
+            type="checkbox"
+            name={name}
+            checked={checked}
+            onChange={handleCheckboxChange}
+          />
         <input
-          type="checkbox"
+          className="input"
+          type="text"
           name={name}
-          checked={checked}
-          onChange={handleCheckboxChange}
-        />
-        <label>{name}</label>
-        <input
-          type="url"
-          name={name}
-          value={value || ''}
+          value={value || ""}
           onChange={handleInputChange}
           disabled={!checked}
         />
+        <label className="label">       
+      
+          {name}
+        </label>
         <div className="underline" />
       </div>
     );
   };
 
+  /*
+    <div className="input-container" key={name}>
+      <input
+        className="input"
+        type="text"
+        name={name}
+        value={formData[name]}
+        onChange={handleChange}
+      />
+      <label className="label">{label}</label>
+      <div className="underline"></div>
+    </div>
+  */
+
   return (
-    <div className='linkscomponent-container'>
+    <div className="linkscomponent-container">
       <form>
         <h1>Links</h1>
-        {renderInputContainer('github', githubChecked, links?.github)}
-        {renderInputContainer('linkedIn', linkedInChecked, links?.linkedIn)}
-        {renderInputContainer('portfolio', portfolioChecked, links?.portfolio)}
+        {renderInputContainer("github", githubChecked, links?.github)}
+        {renderInputContainer("linkedIn", linkedInChecked, links?.linkedIn)}
+        {renderInputContainer("portfolio", portfolioChecked, links?.portfolio)}
       </form>
     </div>
   );
-}
+};

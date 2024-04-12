@@ -5,10 +5,11 @@ import { LinksComponent } from './LinksComponent';
 // import Summary from './Summary';
 // import WorkExperience from './WorkExperience';
 // import Education from './Education';
-import { ContactProps, LinkProps, IWorkExperience} from '../interface';
+import { ContactProps, LinkProps, IWorkExperience, ISkills} from '../interface';
 import { CvContext } from '../context/CVContext';
 import { WorkExperienceComponent } from './WorkExperience';
 import { Profile } from './Profile';
+import { Skills } from './Skills';
 
 
 export const CvComponent = () => {
@@ -19,8 +20,9 @@ const userData = useContext(CvContext);
   const [links, setLinks] = useState<LinkProps | undefined>(userData.links);
   const [profile, setProfile] = useState('');
 //   const [summary, setSummary] = useState('');
+  const [skills, setSkills] = useState<ISkills[] | undefined>(userData.skills);
   const [workExperience, setWorkExperience] = useState<IWorkExperience[] | undefined>([]);
-//   const [education, setEducation] = useState([]);
+  const [education, setEducation] = useState<IWorkExperience[] | undefined>([]);
 
   // Function to update contact info
   const updateContactInfo = (newContactInfo:ContactProps) => {
@@ -40,10 +42,10 @@ const userData = useContext(CvContext);
     console.log(profile);
   };
 
-//   // Function to update summary
-//   const updateSummary = (newSummary) => {
-//     setSummary(newSummary);
-//   };
+  const updateSkills = (newSkills: ISkills[]) => {
+    setSkills(newSkills);
+    console.log(skills)
+  }
 
   // Function to update work experience
   const updateWorkExperience = (newWorkExperience:IWorkExperience[]) => {
@@ -51,10 +53,10 @@ const userData = useContext(CvContext);
     console.log(workExperience)
   };
 
-//   // Function to update education
-//   const updateEducation = (newEducation) => {
-//     setEducation(newEducation);
-//   };
+  // Function to update education
+  const updateEducation = (newEducation:IWorkExperience[]) => {
+    setEducation(newEducation);
+  };
 
   return (
     <div className="cvcomponent-container">
@@ -62,8 +64,8 @@ const userData = useContext(CvContext);
       <Profile profileText={profile} onUpdateProfile={updateProfile} />
        <LinksComponent links={links} onUpdateLinks={updateLinks} />
        <WorkExperienceComponent experience={workExperience} onUpdateWorkExperience={updateWorkExperience} isEducation={false} />
-       <WorkExperienceComponent experience={workExperience} onUpdateWorkExperience={updateWorkExperience} isEducation={true}/>
-
+       <WorkExperienceComponent experience={workExperience} onUpdateWorkExperience={updateEducation} isEducation={true}/>
+    <Skills skills={skills} onUpdateSkills={updateSkills}/>
       {/*
       <Summary summary={summary} onUpdateSummary={updateSummary} />*/}
     </div>

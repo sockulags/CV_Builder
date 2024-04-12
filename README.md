@@ -12,7 +12,7 @@
 
 
 ### Questions
-1. ***How do I determine what a template should looke like?*** \
+1. ***How do I determine what a template should look like?*** \
 Do some research on the subject before creating it.
 
 2. ***What categories should I have pre-made and what should each category's limitations be?***

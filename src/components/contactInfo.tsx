@@ -31,49 +31,59 @@ export const ContactInfo = ({ contactInfo, onUpdateContactInfo }: Props) => {
         <form>
         <h1>Contact Information</h1>
           <div className='input-container'>
-            <label>First Name:</label>
             <input
+            className='input'
               type='text'
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               onBlur={handleBlur}
             />
+            <label className="label">First Name:</label>
+            <div className='underline'></div>
           </div>
           <div className='input-container'>
-            <label>Last Name:</label>
             <input
+            className="input"
               type='text'
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               onBlur={handleBlur}
             />
+            <label className="label">Last Name:</label>
+            <div className='underline'></div>
           </div>
           <div className='input-container'>
-            <label>Email:</label>
             <input
+            className="input"
               type='email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onBlur={handleBlur}
             />
+            <label className="label">Email:</label>
+            <div className='underline'></div>
           </div>
           <div className='input-container'>
-            <label>Phone Number:</label>
             <input
+            className="input"
               type='text'
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               onBlur={handleBlur}
             />
+            <label className="label">Phone Number:</label>
+            <div className='underline'></div>
           </div>
           <div className='input-container'>
-            <label>Location:</label>
             <input
+            className="input"
               type="text"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               onBlur={handleBlur}
             />
+            <label className="label">Location:</label>
+            <div className='underline'></div>
           </div>   
         </form>
       </div>

@@ -10,10 +10,15 @@ export const Auth = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | undefined>(); 
     const [newCollectionName, setNewCollectionName] = useState<string>("");
-
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+    
     const signIn = async () => {
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
+            const result = await createUserWithEmailAndPassword(auth, email, password);
+            if(result){
+                setIsLoggedIn(true);
+                closeLogin();
+            }
         } catch (error) {
             handleError(error);
         }
@@ -21,7 +26,11 @@ export const Auth = () => {
 
     const signInWithGoogle = async () => {
         try {
-            await signInWithPopup(auth, googleProvider);
+            const result = await signInWithPopup(auth, googleProvider);
+            if(result){
+                setIsLoggedIn(true);
+                closeLogin();
+            }
         } catch (error) {
             handleError(error);
         }
@@ -61,26 +70,30 @@ export const Auth = () => {
     auth.onAuthStateChanged((user) => {
         if (user) {
             createUserProfile(user);
+            setIsLoggedIn(true);
+        }
+        else{
+            setIsLoggedIn(false);
         }
     });
 
-    const createNewCollection = async () => {
-        try {
-            const generatedName = generateUniqueName(); 
-            setNewCollectionName(generatedName);
+    // const createNewCollection = async () => {
+    //     try {
+    //         const generatedName = generateUniqueName(); 
+    //         setNewCollectionName(generatedName);
 
 
-            const stringList = ["String 1", "String 2", "String 3"];
+    //         const stringList = ["String 1", "String 2", "String 3"];
     
-            await addDoc(collection(db, generatedName), { strings: stringList });
-        } catch (error) {
-            handleError(error);
-        }
-    };
+    //         await addDoc(collection(db, generatedName), { strings: stringList });
+    //     } catch (error) {
+    //         handleError(error);
+    //     }
+    // };
 
-    const generateUniqueName = () => {       
-        return `collection_${Date.now()}`;
-    };
+    // const generateUniqueName = () => {       
+    //     return `collection_${Date.now()}`;
+    // };
 
     const handleError = (error) => {
         let errorMessage = "An error occurred. Please try again later.";
@@ -101,23 +114,49 @@ export const Auth = () => {
         setError(errorMessage);
     };
 
+    const closeLogin = () => {
+        document.querySelector(".login-popup")?.classList.add("hider");
+        document.querySelector(".bg-blur")?.classList.add("hider");
+    }
+
+    const handleLoginClick = () => {
+        if(isLoggedIn){
+            logout();
+        } else{
+            document.querySelector(".login-popup")?.classList.remove("hider");
+            document.querySelector(".bg-blur")?.classList.remove("hider");
+        }
+    }
+
     return (
-        <div>
+        <>
+        <button className="login-in-btn" onClick={handleLoginClick}>{isLoggedIn ? "Logout" : "Login"}</button>
+        <div className="login-popup">
+            <span onClick={closeLogin}>X</span>
+            <h1>Login</h1>
+            <div className="sign-in-group">
+
+            <label>Email</label>
             <input 
-                placeholder="Email.."
+            className="login-input"
+            placeholder="Enter email.."
                 onChange={(e) => setEmail(e.target.value)}
             />
-            <input 
-                placeholder="Password.."
+            <label>Password</label>
+            <input
+            className="login-input" 
+                placeholder="Enter password.."
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button onClick={signIn}>Sign In</button>
+            <button className="sign-in-btn" onClick={signIn}>Sign In</button>
+            <div className="divider">----</div>
+            <p>Or sign in with:</p>
             <button onClick={signInWithGoogle}>Sign in with Google</button>
-            <button onClick={logout}>Logout</button>
-            <button onClick={createNewCollection}>Create New Collection</button>
-            {error && <p>{error}</p>}
-            {newCollectionName && <p>New Collection Name: {newCollectionName}</p>}
+            </div>
+          
         </div>
+          <div className="bg-blur"></div>
+          </>
     );
 };
