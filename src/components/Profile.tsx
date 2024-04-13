@@ -16,8 +16,7 @@ export const Profile = ({ profileText, onUpdateProfile }: Props) => {
     onUpdateProfile(text);
   };
 
-  return (
-    <div className='profile-container'>
+  return (  
       <form>
         <h1>Profile</h1>
         <textarea
@@ -28,7 +27,6 @@ export const Profile = ({ profileText, onUpdateProfile }: Props) => {
           onChange={handleChange} 
           onBlur={handleBlur}
         />
-      </form>
-    </div>
+      </form>  
   );
 }

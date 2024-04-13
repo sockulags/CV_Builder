@@ -12,18 +12,21 @@ body{
 form{
   margin: 10px auto;
   width: 90%;
+  max-width: 600px;
   display: flex;
   justify-content: left;
   align-items: center;
   flex-direction: column;
   border: 2px solid #ccc;
-  padding: 10px;
+  padding: 30px 20px;
+  border-radius: 10px;
 }
 
 .input-container {
     position: relative;
     margin: 10px;
     width: 100%;
+    min-height: 40px;
   }
   
   .input-container input {
@@ -70,6 +73,26 @@ form{
     transform: scaleX(1);
   }
 
+  .input-container select{
+    position:absolute;
+    right: 0px;
+    width: 150px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ccc;
+  }
+
+  .input-container select:focus{
+    color: #333;
+  }
+
+  textarea{
+    width: 100%;
+    resize:none;
+  }
+ 
 
   /* LOGIN */
   .login-popup{
@@ -129,8 +152,7 @@ form{
         height: 30px;
       }
       .sign-in-btn{
-        width: 200px;
-        /* margin-left: 100px; */    
+        width: 200px;      
       }
       .divider{
         display: flex;
@@ -146,7 +168,7 @@ form{
     }
   }
 .bg-blur{
-  position: fixed;
+position: fixed;
  height: 100%;
  width: 100%;
  top: 50%;

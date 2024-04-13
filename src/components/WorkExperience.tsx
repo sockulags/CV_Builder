@@ -20,8 +20,6 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
     bulletDescription: [''],
   });
 
-   const [useBulletDescription, setUseBulletDescription] = useState<boolean>(false);
-
    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -63,7 +61,6 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
     });
   };
 
-  // Function to render text input field
   const renderTextInput = (name: keyof IWorkExperience, label: string) => (
     <div className="input-container" key={name}>
       <input
@@ -78,11 +75,9 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
     </div>
   );
 
-  // Function to render select input field
   const renderSelectInput = (name: keyof IWorkExperience, label: string, options: string[]) => (
     <div className="input-container" key={name}>
-      <select
-        className="input"
+      <select       
         name={name}
         value={formData[name]}
         onChange={handleChange}
@@ -96,22 +91,6 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
       <div className="underline"></div>
     </div>
   );
-
-  // Function to render checkbox input field
-  const renderCheckboxInput = () => (
-    <div className="input-container" key={"useBulletDescription"}>
-      <input
-        className="input"
-        type="checkbox"
-        name={"useBulletDescription"}
-        checked={useBulletDescription}
-        onChange={() => setUseBulletDescription(prev => !prev)}
-      />
-      <label className="label">{useBulletDescription ? "Paragraph" : "Bullet points"}</label>
-      <div className="underline"></div>
-    </div>
-  );
-
   return (
     <div className='workexperience-container'>
       <form onSubmit={handleSubmit}>
@@ -123,21 +102,17 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
         {renderSelectInput('endMonth', 'End Month', ['January', 'February', 'March', /*...*/])}
         {renderSelectInput('startYear', 'Start Year', ['2022', '2021', '2020', /*...*/])}
         {renderSelectInput('endYear', 'End Year', ['2022', '2021', '2020', /*...*/])}
-        {renderCheckboxInput()}
-        {!useBulletDescription && (
-          <div className="input-container">
+        {/* {renderCheckboxInput()} */}   
+        
+        <label className="label">Description</label>
             <textarea
               className="input"
               name="workDescription"
               value={formData.workDescription}
               onChange={handleChange}
-            />
-            <label className="label">Description</label>
-            <div className="underline"></div>
-          </div>
-        ) }
-        {useBulletDescription && (
-          <>
+              rows={4}
+            />   
+
             {formData.bulletDescription!.map((bullet, index) => (
               <div className="input-container" key={index}>
                 <input
@@ -148,12 +123,10 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
                   onChange={(e) => handleBulletDescriptionChange(index, e.target.value)}
                 />
                 <label className="label">Bullet points</label>
-                <div className="underline"></div>
               </div>
             ))}
             <button type="button" onClick={addBulletDescription}>Add Bullet Point</button>
-          </>
-        )}
+
         <button type="submit">Add {isEducation ? "Education": "Experience"}</button>
       </form>
     </div>

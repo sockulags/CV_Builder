@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { auth, googleProvider, db } from "../config/firebase";
-import { createUserWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
 import { collection, doc, getDoc, setDoc, addDoc } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
 
@@ -9,14 +9,11 @@ export const Auth = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | undefined>(); 
-    const [newCollectionName, setNewCollectionName] = useState<string>("");
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
     
     const signIn = async () => {
         try {
             const result = await createUserWithEmailAndPassword(auth, email, password);
             if(result){
-                setIsLoggedIn(true);
                 closeLogin();
             }
         } catch (error) {
@@ -27,8 +24,7 @@ export const Auth = () => {
     const signInWithGoogle = async () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
-            if(result){
-                setIsLoggedIn(true);
+            if(result){      
                 closeLogin();
             }
         } catch (error) {
@@ -70,10 +66,6 @@ export const Auth = () => {
     auth.onAuthStateChanged((user) => {
         if (user) {
             createUserProfile(user);
-            setIsLoggedIn(true);
-        }
-        else{
-            setIsLoggedIn(false);
         }
     });
 
@@ -120,7 +112,7 @@ export const Auth = () => {
     }
 
     const handleLoginClick = () => {
-        if(isLoggedIn){
+        if(auth.currentUser){
             logout();
         } else{
             document.querySelector(".login-popup")?.classList.remove("hider");
@@ -130,8 +122,8 @@ export const Auth = () => {
 
     return (
         <>
-        <button className="login-in-btn" onClick={handleLoginClick}>{isLoggedIn ? "Logout" : "Login"}</button>
-        <div className="login-popup">
+        <button className="login-in-btn" onClick={handleLoginClick}>{auth.currentUser ? "Logout" : "Login"}</button>
+        <div className="login-popup hider">
             <span onClick={closeLogin}>X</span>
             <h1>Login</h1>
             <div className="sign-in-group">
@@ -156,7 +148,7 @@ export const Auth = () => {
             </div>
           
         </div>
-          <div className="bg-blur"></div>
+          <div className="bg-blur hider"></div>
           </>
     );
 };

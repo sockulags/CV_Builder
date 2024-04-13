@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 // import './contactInfo.css';
 import { ContactProps } from '../interface';
+import { InputElement } from './Elements/InputElement';
 
 interface Props {
     contactInfo: ContactProps | undefined;
@@ -29,62 +30,12 @@ export const ContactInfo = ({ contactInfo, onUpdateContactInfo }: Props) => {
     return (
       <div className='contactinfo-container'>
         <form>
-        <h1>Contact Information</h1>
-          <div className='input-container'>
-            <input
-            className='input'
-              type='text'
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              onBlur={handleBlur}
-            />
-            <label className="label">First Name:</label>
-            <div className='underline'></div>
-          </div>
-          <div className='input-container'>
-            <input
-            className="input"
-              type='text'
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              onBlur={handleBlur}
-            />
-            <label className="label">Last Name:</label>
-            <div className='underline'></div>
-          </div>
-          <div className='input-container'>
-            <input
-            className="input"
-              type='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onBlur={handleBlur}
-            />
-            <label className="label">Email:</label>
-            <div className='underline'></div>
-          </div>
-          <div className='input-container'>
-            <input
-            className="input"
-              type='text'
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              onBlur={handleBlur}
-            />
-            <label className="label">Phone Number:</label>
-            <div className='underline'></div>
-          </div>
-          <div className='input-container'>
-            <input
-            className="input"
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              onBlur={handleBlur}
-            />
-            <label className="label">Location:</label>
-            <div className='underline'></div>
-          </div>   
+        <h1>Contact Information</h1>  
+            <InputElement propName={'First Name'} propValue={contactInfo?.firstName ?? ""} handleChange={setFirstName}/>
+            <InputElement propName={'Last Name'} propValue={contactInfo?.lastName ?? ""} handleChange={setLastName}/>
+            <InputElement propName={'Email'} propValue={contactInfo?.email ?? ""} handleChange={setEmail}/>
+            <InputElement propName={'Phone number'} propValue={contactInfo?.phoneNumber ?? ""} handleChange={setPhoneNumber}/>
+            <InputElement propName={'Location'} propValue={contactInfo?.location ?? ""} handleChange={setLocation}/>
         </form>
       </div>
     );
