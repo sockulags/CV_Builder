@@ -75,8 +75,10 @@ export function Template1() {
               Object.entries(contactInfo).map(([key, value]) =>
                 getNameFromKey(key, value)
               )}
-            <p style={{ margin: "0" }}>
-              <strong>Links: &nbsp;&nbsp; </strong>
+           
+          </div>
+          <div className="links-container">
+              <strong>Links</strong>
               {links?.linkedIn && (
                 <a href={links?.linkedIn} target="_blank">
                   <img
@@ -84,28 +86,29 @@ export function Template1() {
                     alt="Linkedin"
                     style={{ marginRight: "10px" }}
                   />
+                  LinkedIn
                 </a>
               )}
               {links?.github && (
                 <a href={links?.github} target="_blank">
                   <img src="https://i.stack.imgur.com/tskMh.png" alt="GitHub" />
+                  Github
                 </a>
               )}
-            </p>
-          </div>
+            </div>
         </div>
       </div>
     );
   };
 
   const renderProfileSection = () => {
-    return <>
-    <h3 className="section-header">Profile</h3>
-        <p>
-         {profile}
-        </p>
-    </>
-  }
+    return (
+      <>
+        <h3 className="section-header">Profile</h3>
+        <p>{profile}</p>
+      </>
+    );
+  };
 
   const renderSkillSection = () => {
     return (
@@ -126,108 +129,48 @@ export function Template1() {
     );
   };
 
+  const renderExperiences = (isEducation: boolean) => {
+    const obj = isEducation ? education : workExperience;
+        return (
+      <>
+        <h3 className="section-header">{isEducation ? "Education" : "Work Experience"}</h3>
+        <div className="education-section"></div>
+        {obj?.map((ed, index) => (
+          <div key={index}>
+            <p>
+              <strong>{ed.title}</strong>,{" "}
+              <span style={{ fontWeight: "500" }}>{ed.company}</span>,{" "}
+              <em>{ed.location}</em>,{" "}
+              <span style={{ fontSize: "13px", opacity: "0.9" }}>{" "}
+                {ed.startMonth.substring(0, 3)} {ed.startYear} -{" "}
+                {ed.endMonth ? ed.endMonth.substring(0, 3) : "Ongoing"}{" "}
+                {ed.endYear ? ed.endYear : ""}
+              </span>
+            </p>
+            {ed.workDescription && <p>{ed.workDescription}</p>}
+            {ed.bulletDescription && ed.bulletDescription.length > 1 && (
+              <ul>
+                {ed.bulletDescription.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </>
+    );
+  };
+
   return (
     <div className="template1-container">
       <div className="original-template">
         {renderContactSection()}
         {renderProfileSection()}
         {renderSkillSection()}
+        {renderExperiences(true)}
+        {renderExperiences(false)}
 
-        <h3 className="section-header">Education</h3>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div>
-            <p style={{ display: "inline", fontSize: "15px" }}>
-              <strong>Frontend Intermediate Training in React,</strong>{" "}
-              <span style={{ fontWeight: "500" }}>Lexicon IT Proffs</span>,{" "}
-              <em>Remote</em>,{" "}
-              <span style={{ fontSize: "13px", opacity: "0.9" }}>
-                Nov 2023 - Apr 2024{" "}
-              </span>
-            </p>
-            <p style={{ margin: "0" }}>
-              Full-time course specializing in HTML, CSS, and
-              JavaScript/TypeScript with a focus on frontend development and
-              agile project methodologies.
-            </p>
-            <ul>
-              <li>
-                Thoroughly practiced HTML, CSS, and JavaScript, honing expertise
-                in these core technologies.
-              </li>
-              <li>
-                Advanced training in frontend development, specializing in React
-                and single-page applications.
-              </li>
-              <li>
-                Proficiency in agile project methodologies (SCRUM, KANBAN) and
-                effective teamwork.
-              </li>
-            </ul>
-          </div>
-          {/* Add other education experiences here */}
-        </div>
-
-        <h3 className="section-header">Work Experience</h3>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            lineHeight: "15px",
-          }}
-        >
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <div style={{ fontSize: "15px" }}>
-              <strong>IT Consultant, </strong> Academic Work Consultants,{" "}
-              <em>Örebro</em>,{" "}
-              <span style={{ fontSize: "13px", opacity: "0.9", margin: "0" }}>
-                Apr 2023 - Sep 2023{" "}
-              </span>
-              <br />
-              Developed proficiency in both frontend and backend technologies,
-              emphasizing adaptability and the ability to quickly learn new
-              programming languages and frameworks.
-            </div>
-          </div>
-          <div>
-            <div style={{ fontSize: "15px" }}>
-              <strong>Coach,</strong> Sole Proprietorship, <em>Örebro</em>,{" "}
-              <span style={{ fontSize: "13px", opacity: "0.9", margin: "0" }}>
-                Feb 2020 - Sep 2023{" "}
-              </span>
-              <br />
-              Led lectures and workshops, and developed personalized training
-              programs, showcasing project management and client engagement
-              skills. Writing training programs parallell with education today.
-            </div>
-          </div>
-          <div>
-            <div style={{ fontSize: "15px" }}>
-              <strong>Coach,</strong> CrossFit Örebro, <em>Örebro</em>,{" "}
-              <span
-                style={{ fontSize: "13px", opacity: "0.9", display: "inline" }}
-              >
-                Oct 2016 - Jan 2020{" "}
-              </span>{" "}
-              <br />
-              Enhanced leadership and communication skills by leading group
-              training sessions and developing programs.
-            </div>
-          </div>
-          <div>
-            <div style={{ fontSize: "15px" }}>
-              <strong>Warehouse Worker,</strong> Coop Logistics,{" "}
-              <em style={{ margin: "0", padding: "0" }}>Enköping</em>,{" "}
-              <div
-                style={{ fontSize: "13px", opacity: "0.9", display: "inline" }}
-              >
-                Aug 2013 - Jan 2019{" "}
-              </div>
-              <br />
-              Showcased the ability to work under pressure and manage logistics,
-              highlighting strong organizational and time-management skills.
-            </div>
-          </div>
-        </div>
+        
 
         <h3 className="section-header">Projects and Assignments</h3>
         <div style={{ display: "flex", flexDirection: "column" }}>
