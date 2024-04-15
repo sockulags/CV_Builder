@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { getDocs, collection, addDoc, doc, getDoc } from "firebase/firestore";
 import { CvComponent } from "./components/CvComponent";
 import { CvDataProvider } from "./context/CVContext";
+import { Template1 } from "./components/CvTemplates/Template1";
 
 export function App() {
 
@@ -32,7 +33,10 @@ export function App() {
     <div className="App">
       <Auth />
       <CvDataProvider>
+        <div className="main">
         <CvComponent/>
+        <Template1/>
+        </div>
       </CvDataProvider>
  
 
