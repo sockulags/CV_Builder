@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-// import './contactInfo.css';
+import React, { useEffect, useState } from 'react';
 import { ContactProps } from '../interface';
-import { InputElement } from './Elements/InputElement';
 
 interface Props {
     contactInfo: ContactProps | undefined;
@@ -9,35 +7,60 @@ interface Props {
 }
 
 export const ContactInfo = ({ contactInfo, onUpdateContactInfo }: Props) => {
-    const [firstName, setFirstName] = useState(contactInfo ? contactInfo.firstName : '');
-    const [lastName, setLastName] = useState(contactInfo ? contactInfo.lastName : '');
-    const [email, setEmail] = useState(contactInfo ? contactInfo.email : '');
-    const [phoneNumber, setPhoneNumber] = useState(contactInfo ? contactInfo.phoneNumber : '');
-    const [location, setLocation] = useState(contactInfo ? contactInfo.location : '');
-  
-    const handleBlur = () => {
-      const newContactInfo = {
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        location
-      };
-  
-      onUpdateContactInfo(newContactInfo);
+    const renderInputContainer = (
+        name: string,
+        keyName: keyof ContactProps,
+        value: string | undefined
+    ) => {
+        const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            const { name, value } = e.target;
+            setFormData(prevData => ({
+                ...prevData,
+                [name]: value,
+            }));
+        };
+
+        return (
+            <div className="input-container">
+                <input
+                      className={`input ${value ? 'has-text' : ''}`}
+                    type="text"
+                    name={keyName}
+                    value={value || ""}
+                    onChange={handleInputChange}
+                    onBlur={() => onUpdateContactInfo(formData)}
+                />
+                <label className="label">{name}</label>
+                <div className="underline" />
+            </div>
+        );
     };
-  
+
+    const [formData, setFormData] = useState<ContactProps>(() => ({
+        firstName: contactInfo ? contactInfo.firstName : '',
+        lastName: contactInfo ? contactInfo.lastName : '',
+        email: contactInfo ? contactInfo.email : '',
+        phoneNumber: contactInfo ? contactInfo.phoneNumber : '',
+        location: contactInfo ? contactInfo.location : '',
+    }));
+
+    useEffect(() => {
+        if (contactInfo) {
+            setFormData(contactInfo);
+        }
+    }, [contactInfo]);
+
+
     return (
-      <div className='contactinfo-container'>
-        <form>
-        <h1>Contact Information</h1>  
-            <InputElement propName={'First Name'} propValue={contactInfo?.firstName ?? ""} handleChange={setFirstName}/>
-            <InputElement propName={'Last Name'} propValue={contactInfo?.lastName ?? ""} handleChange={setLastName}/>
-            <InputElement propName={'Email'} propValue={contactInfo?.email ?? ""} handleChange={setEmail}/>
-            <InputElement propName={'Phone number'} propValue={contactInfo?.phoneNumber ?? ""} handleChange={setPhoneNumber}/>
-            <InputElement propName={'Location'} propValue={contactInfo?.location ?? ""} handleChange={setLocation}/>
-        </form>
-      </div>
+        <div className='contactinfo-container'>
+            <form>
+                <h1>Contact Information</h1>
+                {renderInputContainer("First Name", "firstName", formData.firstName)}
+                {renderInputContainer("Last Name", "lastName", formData.lastName)}
+                {renderInputContainer("Email", "email", formData.email)}
+                {renderInputContainer("Phone number", "phoneNumber", formData.phoneNumber)}
+                {renderInputContainer("Location", "location", formData.location)}
+            </form>
+        </div>
     );
-  };
-  
+};

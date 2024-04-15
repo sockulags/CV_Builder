@@ -20,7 +20,8 @@ export const LinksComponent = ({ links, onUpdateLinks }: Props) => {
     return (
       <div className="input-container">
         <input
-          className="input"
+        className={`input ${value ? 'has-text' : ''}`}
+         
           type="text"
           name={keyName}
           value={value || ""}

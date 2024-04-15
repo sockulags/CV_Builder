@@ -4,9 +4,10 @@ interface Props {
     propName: string;
     propValue: string;
     handleChange: (value: string) => void;
+    onLeave: () => void;
 }
 
-export const InputElement = ({ propName, propValue, handleChange }: Props) => {
+export const InputElement = ({ propName, propValue, handleChange, onLeave }: Props) => {
     const [value, setValue] = useState(propValue);
 
     useEffect(() => {
@@ -15,6 +16,7 @@ export const InputElement = ({ propName, propValue, handleChange }: Props) => {
 
     const handleBlur = () => {
         handleChange(value);
+        onLeave();
     };
 
     const handleChangeInternal = (e: React.ChangeEvent<HTMLInputElement>) => {

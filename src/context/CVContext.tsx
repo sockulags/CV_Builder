@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, ReactNode } from 'react';
 import { auth, db } from '../config/firebase';
 import { getDoc, doc } from 'firebase/firestore';
 import { ContactProps, LinkProps, IWorkExperience, ISkills } from '../interface';
+import { User } from 'firebase/auth';
 
 export interface CvData {
   contactInfo?: ContactProps;
@@ -24,7 +25,7 @@ export const CvDataProvider = ({ children }:CvProviderProps) => {
   const [userData, setUserData] = useState<CvData>({});
 
   useEffect(() => {
-    const fetchUserData = async (user) => {
+    const fetchUserData = async (user: User) => {
       try {
         const userDoc = doc(db, "cvData", user.uid);
         const docSnap = await getDoc(userDoc);
@@ -50,13 +51,6 @@ export const CvDataProvider = ({ children }:CvProviderProps) => {
       unsubscribe(); 
     };
   }, []);
-
-  useEffect(() => {
-       const bla = userData;
-       console.log(bla);
-       setUserData(bla)
-  }, [userData])
-
 
 
   return (
