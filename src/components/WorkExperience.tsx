@@ -21,6 +21,7 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
     bulletDescription: [''],
   });
   const [editIndex, setEditIndex] = useState<number | null>(null);
+  const [editMode, setEditMode] = useState<boolean>(false);
    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -48,6 +49,10 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if(!editMode) {
+      setEditMode(prev=> !prev);
+      return;
+    }
     if (editIndex !== null) {
       const updatedExperience = [...(experience || [])];
       updatedExperience[editIndex] = formData;
@@ -122,7 +127,7 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
             name="workDescription"
             value={formData.workDescription}
             onChange={handleChange}
-            rows={4}
+            rows={4}            
           />   
 
           {formData.bulletDescription!.map((bullet, index) => (
@@ -141,10 +146,12 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
           </>
     );
   }
+
   return (
     <div className='workexperience-container'>
     <form onSubmit={handleSubmit}>
-      <h1>{isEducation ? "Education" : "Work Experience"}</h1>
+      <h1>{isEducation ? "Education" : "Work Experience"}
+      </h1>
       {experience && experience.map((exp, index) => (
         <div className="editable-entry" key={index}>
           <h1>{exp.title}</h1>
@@ -153,8 +160,8 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
           <button type="button" onClick={() => handleEdit(index)}>Edit</button>
         </div>
       ))}
-      {renderExperienceForm()}
-      <button type="submit">Add {isEducation ? "Education" : "Experience"}</button>
+      {editMode && renderExperienceForm()}
+      <button type="submit">{editMode ? "Save Changes" : (isEducation ? "Add Education" : "Add Experience")}</button>
     </form>
   </div>
   );

@@ -114,8 +114,7 @@ export const CvComponent = () => {
         isEducation={true}
       />
       <Skills skills={skills} onUpdateSkills={updateSkills} />
-      {/*
-      <Summary summary={summary} onUpdateSummary={updateSummary} />*/}
+
       <button onClick={updateCV}> SAVE Changes</button>
     </div>
   );
