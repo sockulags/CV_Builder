@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { IWorkExperience } from '../interface';
+import {months, startYears, endYears} from "../data/info";
 
 interface Props {
   experience: IWorkExperience[] | undefined;
-  onUpdateWorkExperience: (experience: IWorkExperience[]) => void;
+  onUpdateWorkExperience: (experience: IWorkExperience[], isEducation:boolean) => void;
   isEducation: boolean;
 }
 
@@ -47,7 +48,7 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onUpdateWorkExperience([...(experience || []), formData]);
+    onUpdateWorkExperience([...(experience || []), formData], isEducation);
     setFormData({
       title: '',
       company: '',
@@ -91,41 +92,54 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
       <div className="underline"></div>
     </div>
   );
+
+  const renderExperienceForm = () => {
+    return (
+      <>
+      {renderTextInput('title', 'Title')}
+      {renderTextInput('company', isEducation ? "School":'Company')}
+      {renderTextInput('location', 'Location')}
+      {renderSelectInput('startMonth', 'Start Month', months)}
+      {renderSelectInput('startYear', 'Start Year', startYears)}
+      {renderSelectInput('endMonth', 'End Month', months)}
+      {renderSelectInput('endYear', 'End Year', endYears)}       
+      <label className="label">Description</label>
+          <textarea
+            className="input"
+            name="workDescription"
+            value={formData.workDescription}
+            onChange={handleChange}
+            rows={4}
+          />   
+
+          {formData.bulletDescription!.map((bullet, index) => (
+            <div className="input-container" key={index}>
+              <input
+                className="input"
+                type="text"
+                name={`bulletDescription-${index}`}
+                value={bullet}
+                onChange={(e) => handleBulletDescriptionChange(index, e.target.value)}
+              />
+              <label className="label">Bullet points</label>
+            </div>
+          ))}
+          <button type="button" onClick={addBulletDescription}>Add Bullet Point</button>
+          </>
+    );
+  }
   return (
     <div className='workexperience-container'>
       <form onSubmit={handleSubmit}>
-        <h1>{isEducation ? "Education" : "Work Experience"}</h1>
-        {renderTextInput('title', 'Title')}
-        {renderTextInput('company', isEducation ? "School":'Company')}
-        {renderTextInput('location', 'Location')}
-        {renderSelectInput('startMonth', 'Start Month', ['January', 'February', 'March', /*...*/])}
-        {renderSelectInput('endMonth', 'End Month', ['January', 'February', 'March', /*...*/])}
-        {renderSelectInput('startYear', 'Start Year', ['2022', '2021', '2020', /*...*/])}
-        {renderSelectInput('endYear', 'End Year', ['2022', '2021', '2020', /*...*/])}
-        {/* {renderCheckboxInput()} */}   
-        
-        <label className="label">Description</label>
-            <textarea
-              className="input"
-              name="workDescription"
-              value={formData.workDescription}
-              onChange={handleChange}
-              rows={4}
-            />   
+        <h1>{isEducation ? "Education" : "Work Experience"}</h1>        
+        {
+          experience && experience.map((exp, index) => (
+            <div className="editable-entry" key={index}><h1>{exp.title}</h1><i>{exp.company}</i><span>{exp.startMonth} - {exp.startYear}</span></div>
+          )
 
-            {formData.bulletDescription!.map((bullet, index) => (
-              <div className="input-container" key={index}>
-                <input
-                  className="input"
-                  type="text"
-                  name={`bulletDescription-${index}`}
-                  value={bullet}
-                  onChange={(e) => handleBulletDescriptionChange(index, e.target.value)}
-                />
-                <label className="label">Bullet points</label>
-              </div>
-            ))}
-            <button type="button" onClick={addBulletDescription}>Add Bullet Point</button>
+          )
+        }
+        {renderExperienceForm()}
 
         <button type="submit">Add {isEducation ? "Education": "Experience"}</button>
       </form>

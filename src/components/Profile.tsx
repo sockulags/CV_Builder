@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 interface Props {
-  profileText: string;
+  profileText: string | undefined;
   onUpdateProfile: (profileText: string) => void;
 }
 

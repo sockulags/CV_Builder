@@ -9,6 +9,7 @@ export const Auth = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | undefined>(); 
+    const [currentUser, setCurrentUser] = useState<any>(null);
     
     const signIn = async () => {
         try {
@@ -63,29 +64,24 @@ export const Auth = () => {
         }
     };
 
-    auth.onAuthStateChanged((user) => {
-        if (user) {
-            createUserProfile(user);
-        }
-    });
+    useEffect(() => {
+        // Set up the authentication state listener
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // If a user is signed in, update the currentUser state
+                setCurrentUser(user);
+                createUserProfile(user);
+            } else {
+                // If no user is signed in, set currentUser state to null
+                setCurrentUser(null);
+            }
+        });
 
-    // const createNewCollection = async () => {
-    //     try {
-    //         const generatedName = generateUniqueName(); 
-    //         setNewCollectionName(generatedName);
-
-
-    //         const stringList = ["String 1", "String 2", "String 3"];
-    
-    //         await addDoc(collection(db, generatedName), { strings: stringList });
-    //     } catch (error) {
-    //         handleError(error);
-    //     }
-    // };
-
-    // const generateUniqueName = () => {       
-    //     return `collection_${Date.now()}`;
-    // };
+        // Clean up the listener when the component unmounts
+        return () => {
+            unsubscribe();
+        };
+    }, []);
 
     const handleError = (error) => {
         let errorMessage = "An error occurred. Please try again later.";
@@ -122,7 +118,7 @@ export const Auth = () => {
 
     return (
         <>
-        <button className="login-in-btn" onClick={handleLoginClick}>{auth.currentUser ? "Logout" : "Login"}</button>
+        <button className="login-in-btn" onClick={handleLoginClick}>{currentUser ? "Logout" : "Login"}</button>
         <div className="login-popup hider">
             <span onClick={closeLogin}>X</span>
             <h1>Login</h1>

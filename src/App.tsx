@@ -7,18 +7,6 @@ import { CvComponent } from "./components/CvComponent";
 import { CvDataProvider } from "./context/CVContext";
 
 export function App() {
-  // Contact Info
-
-  // Links
-
-  // Profile - type: string 
-
-  // Summary - type: string
-
-  // Work Experience
-
-  // Education
-
 
   const getUserInfo = async () => {
     try {   
