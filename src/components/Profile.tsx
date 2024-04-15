@@ -17,16 +17,16 @@ export const Profile = ({ profileText, onUpdateProfile }: Props) => {
   };
 
   return (  
-      <form>
-        <h1>Profile</h1>
-        <textarea
-          name="profile"
-          rows={4}
-          placeholder='Write 3-5 sentences about professional self'
-          value={text} 
-          onChange={handleChange} 
-          onBlur={handleBlur}
-        />
-      </form>  
+    <form>
+      <h1>Profile</h1>
+      <textarea
+        name="profile"
+        rows={4}
+        placeholder='Write 3-5 sentences about professional self'
+        value={text === "" ? profileText : text} 
+        onChange={handleChange} 
+        onBlur={handleBlur}
+      />
+    </form>  
   );
 }

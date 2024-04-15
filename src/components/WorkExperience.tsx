@@ -20,7 +20,7 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
     workDescription: '',
     bulletDescription: [''],
   });
-
+  const [editIndex, setEditIndex] = useState<number | null>(null);
    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -48,7 +48,14 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onUpdateWorkExperience([...(experience || []), formData], isEducation);
+    if (editIndex !== null) {
+      const updatedExperience = [...(experience || [])];
+      updatedExperience[editIndex] = formData;
+      onUpdateWorkExperience(updatedExperience, isEducation);
+      setEditIndex(null);
+    } else {
+      onUpdateWorkExperience([...(experience || []), formData], isEducation);
+    }
     setFormData({
       title: '',
       company: '',
@@ -61,7 +68,6 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
       bulletDescription: [''],
     });
   };
-
   const renderTextInput = (name: keyof IWorkExperience, label: string) => (
     <div className="input-container" key={name}>
       <input
@@ -92,6 +98,13 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
       <div className="underline"></div>
     </div>
   );
+  const handleEdit = (index: number) => {
+    const expToEdit = experience && experience[index];
+    if (expToEdit) {
+      setFormData(expToEdit);
+      setEditIndex(index);
+    }
+  };
 
   const renderExperienceForm = () => {
     return (
@@ -130,20 +143,20 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
   }
   return (
     <div className='workexperience-container'>
-      <form onSubmit={handleSubmit}>
-        <h1>{isEducation ? "Education" : "Work Experience"}</h1>        
-        {
-          experience && experience.map((exp, index) => (
-            <div className="editable-entry" key={index}><h1>{exp.title}</h1><i>{exp.company}</i><span>{exp.startMonth} - {exp.startYear}</span></div>
-          )
-
-          )
-        }
-        {renderExperienceForm()}
-
-        <button type="submit">Add {isEducation ? "Education": "Experience"}</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <h1>{isEducation ? "Education" : "Work Experience"}</h1>
+      {experience && experience.map((exp, index) => (
+        <div className="editable-entry" key={index}>
+          <h1>{exp.title}</h1>
+          <i>{exp.company}</i>
+          <span>{exp.startMonth} - {exp.startYear}</span>
+          <button type="button" onClick={() => handleEdit(index)}>Edit</button>
+        </div>
+      ))}
+      {renderExperienceForm()}
+      <button type="submit">Add {isEducation ? "Education" : "Experience"}</button>
+    </form>
+  </div>
   );
 }
 
