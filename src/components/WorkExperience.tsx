@@ -53,6 +53,7 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
       setEditMode(prev=> !prev);
       return;
     }
+    setEditMode(prev=> !prev);
     if (editIndex !== null) {
       const updatedExperience = [...(experience || [])];
       updatedExperience[editIndex] = formData;
@@ -108,6 +109,7 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
     if (expToEdit) {
       setFormData(expToEdit);
       setEditIndex(index);
+      setEditMode(prev=>!prev);
     }
   };
 

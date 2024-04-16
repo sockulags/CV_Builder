@@ -203,3 +203,6 @@ position: fixed;
   display: grid;
   grid-template-columns: 1fr 1fr; 
 }
+@page {
+  margin: 1cm 0.5cm;
+}
