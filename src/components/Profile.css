@@ -1,0 +1,51 @@
+textarea{
+    border: none;
+    background-color: inherit;
+    scrollbar-width: none;  
+  
+}
+.row-trans {
+    transition: height 0.5s ease;
+    height: 40px;
+  }
+.row-trans-focused {
+    transition: height 0.5s ease;
+    height: 200px;
+  }
+
+.warning-msg{
+    display: none;
+}
+.warning-msg-red {
+    color: red;
+   
+  }
+  
+textarea:hover.warning-msg-red,
+textarea:focus.warning-msg-red{
+    outline-color: red;
+    padding: 4px 8px;
+}
+
+textarea:hover{
+    outline: auto;
+    padding: 4px 8px;
+}
+
+textarea:focus{
+    background-color: rgb(243, 243, 243);
+    padding: 8px 13px;
+}
+
+textarea:focus + .warning-msg{
+    display:contents;
+    font-size: 12px;    
+}
+
+textarea.warning-msg-red{
+    /* outline-color: red; */
+    border: 2px solid red;
+    padding: 4px 8px;
+    border-radius: 5px;
+    color: inherit;
+}

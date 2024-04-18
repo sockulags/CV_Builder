@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import './Profile.css';
 
 interface Props {
   profileText: string | undefined;
@@ -6,30 +7,66 @@ interface Props {
 }
 
 export const Profile = ({ profileText, onUpdateProfile }: Props) => {
-  const [text, setText] = useState<string>(profileText || "");
+  const [text, setText] = useState<string>(profileText || '');
+  const [wordCount, setWordCount] = useState<number>(0);
+  const [focused, setFocused] = useState<boolean>(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null); 
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.target.value);
+    const areaText = e.target.value;
+    setText(areaText);
   };
 
-  const handleBlur = () => {
-    onUpdateProfile(text);
+  useEffect(() => {
+    if(profileText)
+    setText(profileText);
+  },[profileText])
+
+  const handleFocus = () => {
+   setFocused(true);    
+    if (textareaRef.current) {
+      const { value } = textareaRef.current;
+      textareaRef.current.focus();
+      setTimeout(() => {
+        textareaRef.current!.setSelectionRange(value.length, value.length);
+      }, 0);
+    }
   };
 
-  return (  
+  useEffect(() => {
+    const initialWordCount = text.length > 0 ? text.trim().split(' ').length : 0;
+    setWordCount(initialWordCount);
+  }, [text]);
+
+  const handleBlur = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const areaText = e.target.value;
+    setFocused(false);
+    onUpdateProfile(areaText);
+  };
+
+  return (
     <form>
       <div className="form-header">
-      <h1>Profile</h1>
+        <h1>Profile</h1>
       </div>
       <textarea
+        ref={textareaRef}
+        className={`${focused ? 'row-trans-focused' : 'row-trans'}${
+          wordCount > 100 ? 'warning-msg-red' : ''
+        }`}
         name="profile"
-        rows={4}
-        placeholder='Write 3-5 sentences about professional self'
-        value={text === "" ? profileText : text} 
-        onChange={handleChange} 
+        placeholder="Write 3-5 sentences about professional self"
+        value={text}
+        onChange={handleChange}
         onBlur={handleBlur}
-        disabled
+        onFocus={handleFocus}
+        spellCheck={false}
+        wrap={'soft'}
       />
-    </form>  
+      <div className={`warning-msg ${wordCount > 100 ? 'warning-msg-red' : ''}`}>
+        Word count: {wordCount} / 100
+        {wordCount > 100 && ". Your profile text should not be longer than 100 words."}
+      </div>
+    </form>
   );
-}
+};
