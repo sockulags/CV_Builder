@@ -46,7 +46,7 @@ export const Skills = ({ skills, onUpdateSkills }: Props) => {
                     value={newSkillCategory}
                     onChange={(e) => setNewSkillCategory(e.target.value)}
                 />
-                <button type="button" onClick={handleAddSkillCategory}>Add Skill Category</button>
+                <button className="edit-btn" type="button" onClick={handleAddSkillCategory}>Add Skill Category</button>
             </div>
             <div className='input-container'>
                 <select
@@ -64,7 +64,7 @@ export const Skills = ({ skills, onUpdateSkills }: Props) => {
                     value={newSkill}
                     onChange={(e) => setNewSkill(e.target.value)}
                 />
-                <button type="button" onClick={handleAddSkill}>Add Skill</button>
+                <button className="edit-btn" type="button" onClick={handleAddSkill}>Add Skill</button>
             </div>
             </form>
         </div>

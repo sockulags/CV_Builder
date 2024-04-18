@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { IWorkExperience } from '../interface';
 import {months, startYears, endYears} from "../data/info";
+import { editSymbol } from './Elements/EditButton';
 
 interface Props {
   experience: IWorkExperience[] | undefined;
@@ -155,15 +156,19 @@ export const WorkExperienceComponent = ({ experience, onUpdateWorkExperience, is
       <h1>{isEducation ? "Education" : "Work Experience"}
       </h1>
       {experience && experience.map((exp, index) => (
-        <div className="editable-entry" key={index}>
-          <h1>{exp.title}</h1>
-          <i>{exp.company}</i>
+       
+          <div className="form-header"  key={index}>
+            <div>
+          <h3>{exp.title}</h3>
+          <i>{exp.company}</i>,{" "}
           <span>{exp.startMonth} - {exp.startYear}</span>
-          <button type="button" onClick={() => handleEdit(index)}>Edit</button>
-        </div>
+            </div>
+          <button className="edit-btn" type="button" onClick={() => handleEdit(index)}>{editSymbol}Edit</button>
+          </div>        
+       
       ))}
       {editMode && renderExperienceForm()}
-      <button type="submit">{editMode ? "Save Changes" : (isEducation ? "Add Education" : "Add Experience")}</button>
+      <button className="edit-btn" type="submit">{editMode ? "Save Changes" : (isEducation ? "Add Education" : "Add Experience")}</button>
     </form>
   </div>
   );
