@@ -193,7 +193,7 @@ export function Template1() {
 
 
   return (
-    <div>
+    <div className="cv-div">
       <div className="scale-control">
         <button onClick={scaleDown}>-</button>
         <input type="text" value={`${(scale * 100).toFixed(0)}%`} readOnly />

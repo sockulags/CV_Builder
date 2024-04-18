@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { LinkProps } from "../interface";
+import { EditButton } from "./Elements/EditButton";
 
 interface Props {
   links: LinkProps | undefined;
@@ -50,20 +51,23 @@ export const LinksComponent = ({ links, onUpdateLinks }: Props) => {
     )
   }
 
-  const handleButtonClick = (e:React.FormEvent) => {
-    e.preventDefault();
+  const handleButtonClick = () => { 
     setEditMode(prev=>!prev);
   }
 
   return (
     <div className="linkscomponent-container">
       <form>
-        <h1>Links<button onClick={handleButtonClick}>{editMode ? "Save Changes" : "Edit"}</button></h1>
+        <div className="form-header">
+        <h1>Links</h1>
+{!editMode && <EditButton onButtonClick={handleButtonClick} editMode={editMode}/>}
+        </div>
         {
           editMode ? <>
             {renderInputContainer("Github", "github", links?.github)}
         {renderInputContainer("LinkedIn","linkedIn", links?.linkedIn)}
         {renderInputContainer("Portfolio","portfolio", links?.portfolio)}
+        <EditButton onButtonClick={handleButtonClick} editMode={editMode}/>
           </>
           :
           renderLinks()

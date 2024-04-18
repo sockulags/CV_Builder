@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ContactProps } from '../interface';
+import { EditButton } from './Elements/EditButton';
 
 interface Props {
     contactInfo: ContactProps | undefined;
@@ -71,15 +72,17 @@ export const ContactInfo = ({ contactInfo, onUpdateContactInfo }: Props) => {
       )
     }
 
-    const handleButtonClick = (e: React.FormEvent<HTMLButtonElement>) => {
-      e.preventDefault();
+    const handleButtonClick = () => {    
       setEditMode(prev => !prev)
     }
 
     return (
       <div className='contactinfo-container'>
           <form>
-              <h1>Contact Information <button onClick={handleButtonClick}>{editMode ? "Save Changes" : "Edit"}</button></h1>
+            <div className="form-header">
+              <h1>Contact Information </h1>
+              {!editMode && <EditButton onButtonClick={handleButtonClick} editMode={editMode}/>}
+            </div>
               {editMode ? (
                   <>
                       {renderInputContainer("First Name", "firstName", formData.firstName)}
@@ -87,10 +90,12 @@ export const ContactInfo = ({ contactInfo, onUpdateContactInfo }: Props) => {
                       {renderInputContainer("Email", "email", formData.email)}
                       {renderInputContainer("Phone number", "phoneNumber", formData.phoneNumber)}
                       {renderInputContainer("Location", "location", formData.location)}
+                      <EditButton onButtonClick={handleButtonClick} editMode={editMode}/>
                   </>
               ) : (
                   renderContactInfo()
               )}
+              
           </form>
       </div>
   );

@@ -6,6 +6,7 @@ import { getDocs, collection, addDoc, doc, getDoc } from "firebase/firestore";
 import { CvComponent } from "./components/CvComponent";
 import { CvDataProvider } from "./context/CVContext";
 import { Template1 } from "./components/CvTemplates/Template1";
+import { Toolbar } from "./components/Toolbar";
 
 export function App() {
 
@@ -38,6 +39,7 @@ export function App() {
         <Template1/>
         </div>
       </CvDataProvider>
+      <Toolbar/>
  
 
 

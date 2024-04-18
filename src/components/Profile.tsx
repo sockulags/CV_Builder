@@ -18,7 +18,9 @@ export const Profile = ({ profileText, onUpdateProfile }: Props) => {
 
   return (  
     <form>
+      <div className="form-header">
       <h1>Profile</h1>
+      </div>
       <textarea
         name="profile"
         rows={4}
@@ -26,6 +28,7 @@ export const Profile = ({ profileText, onUpdateProfile }: Props) => {
         value={text === "" ? profileText : text} 
         onChange={handleChange} 
         onBlur={handleBlur}
+        disabled
       />
     </form>  
   );
